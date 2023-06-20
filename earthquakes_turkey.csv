@@ -1,4 +1,4 @@
-Date,Latitude,Longitude,Depth,Magnitude
+date,latitude,longitude,depth,magnitude
 2019-01-12 04:08:37,38.567,39.1257,5.0,1.4
 2019-01-12 04:16:51,34.7718,26.3817,85.6,3.0
 2019-01-12 04:26:52,36.5203,28.7633,11.3,1.3
