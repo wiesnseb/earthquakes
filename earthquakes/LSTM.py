@@ -1,7 +1,6 @@
 # remove tenserflow info from console
 #https://github.com/hayriyeanill/EarthquakePrediction/tree/main
 
-
 import os
 import pandas as pd
 import numpy as np
@@ -21,79 +20,14 @@ from sklearn.preprocessing import RobustScaler
 
 
 
-plt.rcParams["figure.figsize"] = (15,5)
+#plt.rcParams["figure.figsize"] = (15,5)
 pd.options.mode.chained_assignment = None
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 tf.get_logger().setLevel('INFO')
 
 
-#Import Earthquake Data Turkey
-df = pd.read_csv("earthquakes_turkey.csv",  delimiter=',', parse_dates=['date'])
 
-
-
-# <====================== FEATURE ENGINEERING ======================>
-df['year'] = pd.to_datetime(df['date']).dt.year
-df['month'] = pd.to_datetime(df['date']).dt.month
-df['day'] = pd.to_datetime(df['date']).dt.day
-df['day_of_week'] = pd.to_datetime(df['date']).dt.dayofweek
-
-#Cluster the Lat and Long
-num_clusters = 50
-coordinates = df[['latitude', 'longitude']].values
-kmeans = KMeans(n_clusters=num_clusters)
-kmeans.fit(coordinates)
-cluster_labels = kmeans.labels_
-df['cluster_id'] = cluster_labels
-
-
-# Interval in seconds between events
-df["inter_event_duration"] = df["date"].diff().apply(lambda x: x.total_seconds())
-
-
-# Rolling of magnitudes from the last 10 earthquakes
-df["mag_roll_10"] = df["magnitude"].rolling(window=10).mean()
-
-# magnitude stats of earthquakes that occurred within a certain radius 
-radius = 10
-df['avg_magnitude_within_radius'] = df['magnitude'].rolling(window=radius).mean()
-df['max_magnitude_within_radius'] = df['magnitude'].rolling(window=radius).max()
-df['min_magnitude_within_radius'] = df['magnitude'].rolling(window=radius).min()
-df['std_magnitude_within_radius'] = df['magnitude'].rolling(window=radius).std()
-
-
-df.dropna(inplace = True)
-
-df = df.set_index('date')
-
-df = df.drop(['latitude', 'longitude'], axis=1)
-
-
-df.plot(subplots=True,figsize=(14,8))
-plt.show()
-
-
-#Train Test Split
-train_size = int(len(df) * 0.75)
-test_size = len(df) - train_size
-train, test = df.iloc[0:train_size], df.iloc[train_size:len(df)]
-print(f"Number of rows training set: {len(train)}, number of rows test set: {len(test)}")
-print()
-
-#normalization
-numerical_cols = ['depth', 'magnitude', 'inter_event_duration', 'mag_roll_10', 'avg_magnitude_within_radius', 'max_magnitude_within_radius', 'min_magnitude_within_radius', 'std_magnitude_within_radius']
-scaler = MinMaxScaler()
-
-train_normalized = pd.DataFrame(scaler.fit_transform(train[numerical_cols]), columns=numerical_cols, index=train.index)
-test_normalized = pd.DataFrame(scaler.fit_transform(test[numerical_cols]), columns=numerical_cols, index=test.index)
-
-train = train.drop(numerical_cols, axis=1)
-test = test.drop(numerical_cols, axis=1)
-
-train = pd.concat([train,train_normalized], axis=1)
-test = pd.concat([test,test_normalized], axis=1)
-
-
+"""
 f_columns = ['year', 'month', 'day', 'day_of_week'] + numerical_cols
 
 f_transformer = RobustScaler()
@@ -107,6 +41,9 @@ train['magnitude'] = cnt_transformer.transform(train[['magnitude']])
 
 test.loc[:, f_columns] = f_transformer.transform(test[f_columns].to_numpy())
 test['magnitude'] = cnt_transformer.transform(test[['magnitude']])
+"""
+
+
 
 def create_dataset(X, y, time_steps=1):
     Xs, ys = [], []

@@ -2,7 +2,7 @@ import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
 
-from main import df
+from earthquakes.__main__ import df
 
 # Select the last 50 earthquakes
 latest_earthquakes = df.head(1000)
@@ -28,3 +28,5 @@ for lat, lon, mag in zip(latitude, longitude, magnitude):
     ).add_to(map)
 
 map.save('index.html')
+
+# in my python file i want to use a function located in a folder plots named def_test
