@@ -71,7 +71,7 @@ def drop_col(df, col_name, axis=1):
 
 
 def add_kmeans(df, num_clusters, lat_col='latitude', long_col='longitude'):
-    kmeans = KMeans(n_clusters=num_clusters)
+    kmeans = KMeans(n_clusters=num_clusters, n_init=10)
     kmeans.fit(df[[lat_col, long_col]])
     df['cluster_id'] = kmeans.labels_
     
