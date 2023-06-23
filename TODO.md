@@ -14,3 +14,23 @@
     * Count the number of earthquakes that occurred within a certain radius or time window from each data point.
     * Calculate the cumulative magnitude or average magnitude change within a certain time window leading up to each earthquake.
 6. Find dataset with constant movement
+
+
+
+"""
+FROM DIFFERENT LSTM MODEL 
+# Evaluate the model on the test set
+mse = model.evaluate(X_test, y_test)
+print('Mean Squared Error:', mse)
+
+# Predict the magnitude of the next earthquake
+next_lat = 0.0  # Placeholder value for the next earthquake latitude
+next_long = 0.0  # Placeholder value for the next earthquake longitude
+next_depth = 0.0  # Placeholder value for the next earthquake depth
+
+next_earthquake_features = np.array([[next_lat, next_long, next_depth]])  # Replace with actual values
+next_earthquake_features = scaler.transform(next_earthquake_features)  # Scale the features using the same scaler used before
+next_earthquake_features = np.reshape(next_earthquake_features, (1, next_earthquake_features.shape[0], next_earthquake_features.shape[1]))
+predicted_magnitude = model.predict(next_earthquake_features)
+print('Predicted Magnitude:', predicted_magnitude)
+"""
