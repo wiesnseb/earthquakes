@@ -17,6 +17,7 @@ def plot_true_pred(result_df, y_test, y_pred):
     plt.legend()
     plt.show()
 
+
 def plot_loss(history):
     plt.figure(figsize=(25,10))
     training_loss = history.history['loss']

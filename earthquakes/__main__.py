@@ -3,6 +3,7 @@ from plots import *
 from features import *
 from preprocessing import *
 from model_stats import *
+from models import *
 import matplotlib.pyplot as plt
 
 
@@ -104,31 +105,14 @@ print(f"Shape X_test: {X_test.shape}, Shape y_test: {y_test.shape}")
 
 
 
-# <====================== LSTM AREA ======================>
-import numpy as np
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-#from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import LSTM, Dense, Bidirectional, Dropout
-from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
+# <====================== LSTM ======================>
+#history, model = run_LSTM(50, X_train, y_train)
 
-# Define the LSTM model
-model = Sequential()
-model.add(Bidirectional(LSTM(64, return_sequences=True), input_shape=(X_train.shape[1], X_train.shape[2])))
-model.add(Bidirectional(LSTM(64)))
-model.add(Dropout(rate=0.1))
-model.add(Dense(1, activation="linear"))  # Output layer with a single neuron for magnitude prediction
-
-# Compile the model
-model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mse'])
-
-# Train the model
-history = model.fit(X_train, y_train, epochs=50, batch_size=32, shuffle=False, validation_split=0.2)
+# <====================== GRU ======================>
+history, model = run_GRU(50, X_train, y_train)
 
 
-# <====================== MODEL ANALYSIS ======================>
+# <====================== MODEL ANALYSIS ======================>$
 #Plot graph of loss and validation loss over time
 plot_loss(history)
 
