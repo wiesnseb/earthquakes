@@ -5,7 +5,6 @@ from math import radians, sin, cos, sqrt, atan2
 from tqdm import tqdm
 
 
-
 def add_split_date(df, split='year', date_column='date'):
     df[split] = getattr(pd.to_datetime(df[date_column]).dt, split)
     return df
@@ -146,3 +145,20 @@ def add_mean_mag_location(df, radius, lat_col='latitude', long_col='longitude', 
     
     return df
 
+
+
+def cluster_earthquakes(data, num_clusters):
+    # Extract latitude and longitude columns from the dataframe
+    coordinates = data[['latitude', 'longitude']].values
+
+    # Perform K-means clustering
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42, n_init=10)
+    kmeans.fit(coordinates)
+
+    # Assign cluster labels to each data point
+    labels = kmeans.labels_
+
+    # Add cluster labels to the dataframe
+    data['cluster_id'] = labels
+
+    return data

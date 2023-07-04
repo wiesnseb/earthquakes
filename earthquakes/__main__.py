@@ -17,7 +17,6 @@ df = import_csv(path)
 #explore_plot(df)
 
 
-
 # <====================== FEATURE ENGINEERING ======================>
 #Split Date Columns
 df = add_split_date(df, split = 'year')
